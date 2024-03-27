@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_tasks"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.FragmentTasks">
+
+    <LinearLayout
+        android:id="@+id/layout_tasks"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_title_tasks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:text="TextView"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_subtitle_tasks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:text="@string/tasks"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/list_tasks"
+            android:layout_width="match_parent"
+            android:layout_height="560dp"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_weight="0" />
+
+        <Button
+            android:id="@+id/button_add_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_weight="0"
+            android:text="@string/add_task" />
+    </LinearLayout>
+</FrameLayout>
