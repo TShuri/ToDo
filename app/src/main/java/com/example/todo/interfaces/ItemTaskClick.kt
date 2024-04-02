@@ -1,5 +1,8 @@
 package com.example.todo.interfaces
 
+import com.example.todo.models.Task
+
 interface ItemTaskClick {
-    fun navigateToTask(nameTask: String)
+    fun navigateToTask(toTask: Task, indexTask: Int)
+    fun changeStatus(index: Int)
 }

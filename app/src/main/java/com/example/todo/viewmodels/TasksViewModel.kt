@@ -13,18 +13,36 @@ class TasksViewModel: ViewModel() {
     private val _currentTask = MutableLiveData<Task?>()
     val currentTask: LiveData<Task?> = _currentTask
 
+    private val _indexCurrentTask = MutableLiveData<Int?>()
+    val indexCurrentTask: LiveData<Int?> = _indexCurrentTask
+
     init {
         Log.d("AAA", "TasksViewModel init")
     }
 
-    fun addTask(name: String, mark: String, date: String, priority: String) {
-        Log.d("BBB", date)
-        val task: Task = Task(name, mark, date, priority)
-
+    fun addTask(task: Task) {
         _tasks.value = (_tasks.value ?: emptyList()) + task
+    }
+
+    fun editTask(task: Task, index: Int) {
+        val updateTasks = _tasks.value
+        updateTasks?.get(index)?.change(task)
+        _tasks.value = updateTasks!!
+    }
+
+    fun changeStatus(index: Int) {
+        val updateTasks = _tasks.value
+        updateTasks?.get(index)?.changeStatus()
+        _tasks.value = updateTasks!!
+    }
+
+    fun updateCurrentTask(task: Task, index: Int) {
+        _currentTask.value = task
+        _indexCurrentTask.value = index
     }
 
     fun resetCurrentTask() {
         _currentTask.value = null
+        _indexCurrentTask.value = null
     }
 }

@@ -13,8 +13,8 @@ import com.example.todo.R
 import com.example.todo.adapters.TasksAdapter
 import com.example.todo.databinding.FragmentTasksBinding
 import com.example.todo.interfaces.ItemTaskClick
+import com.example.todo.models.Task
 import com.example.todo.viewmodels.CurrentProjectViewModel
-import com.example.todo.viewmodels.ProjectsViewModel
 import com.example.todo.viewmodels.TasksViewModel
 
 class FragmentTasks : Fragment(), ItemTaskClick {
@@ -49,8 +49,13 @@ class FragmentTasks : Fragment(), ItemTaskClick {
         }
     }
 
-    override fun navigateToTask(nameTask: String) {
-        TODO("Not yet implemented")
+    override fun navigateToTask(toTask: Task, indexTask: Int) {
+        tasksViewModel.updateCurrentTask(toTask, indexTask)
+        MAIN.navController.navigate(R.id.action_fragmentTasks_to_fragmentTask)
+    }
+
+    override fun changeStatus(index: Int) {
+        tasksViewModel.changeStatus(index)
     }
 
 }
