@@ -12,7 +12,6 @@ class CurrentProjectViewModel: ViewModel() {
 
     init {
         //_currentProject.value = String()
-
         Log.d("AAA", "CurrentProjectViewModel init")
     }
 

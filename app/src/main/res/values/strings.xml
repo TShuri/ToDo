@@ -3,6 +3,7 @@
 
     <string name="projects">Проекты</string>
     <string name="tasks">Задачи</string>
+    <string name="task">Задача</string>
     <string name="create_project">Создать проект</string>
     <string name="add_task">Добавить задачу</string>
     <string name="enter_name_project">Введите название проекта</string>

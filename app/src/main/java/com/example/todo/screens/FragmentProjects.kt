@@ -1,7 +1,6 @@
 package com.example.todo.screens
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todo.ItemListDialogFragment
 import com.example.todo.MAIN
 import com.example.todo.R
-import com.example.todo.adapters.ProjectsRecyclerAdapter
+import com.example.todo.adapters.ProjectsAdapter
 import com.example.todo.databinding.FragmentProjectsBinding
 import com.example.todo.interfaces.ItemProjectClick
 import com.example.todo.viewmodels.CurrentProjectViewModel
@@ -23,7 +22,7 @@ class FragmentProjects : Fragment(), ItemProjectClick {
     private lateinit var binding: FragmentProjectsBinding
     private val projectsViewModel: ProjectsViewModel by activityViewModels()
     private val currentProjectViewModel: CurrentProjectViewModel by activityViewModels()
-    private lateinit var projectsRecyclerAdapter: ProjectsRecyclerAdapter
+    private lateinit var projectsAdapter: ProjectsAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentProjectsBinding.inflate(layoutInflater, container, false)
@@ -36,8 +35,8 @@ class FragmentProjects : Fragment(), ItemProjectClick {
         binding.listProjects.layoutManager = LinearLayoutManager(activity)
 
         projectsViewModel.projects.observe(activity as LifecycleOwner) {
-            projectsRecyclerAdapter = ProjectsRecyclerAdapter(it, this)
-            binding.listProjects.adapter = projectsRecyclerAdapter
+            projectsAdapter = ProjectsAdapter(it, this)
+            binding.listProjects.adapter = projectsAdapter
         }
 
         binding.buttonCreateProject.setOnClickListener {

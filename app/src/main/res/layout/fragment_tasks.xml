@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frame_tasks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screens.FragmentTasks">
 
-    <LinearLayout
-        android:id="@+id/layout_tasks"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:padding="@dimen/fab_margin">
 
         <TextView
             android:id="@+id/text_title_tasks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fab_margin"
+            android:gravity="center_horizontal"
             android:text="TextView"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_subtitle_tasks"
@@ -29,21 +31,32 @@
             android:layout_marginTop="@dimen/fab_margin"
             android:text="@string/tasks"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_title_tasks" />
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_tasks"
             android:layout_width="match_parent"
-            android:layout_height="560dp"
+            android:layout_height="0dp"
             android:layout_marginTop="@dimen/fab_margin"
-            android:layout_weight="0" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_subtitle_tasks"
+            tools:listitem="@layout/item_task" />
 
-        <Button
-            android:id="@+id/button_add_task"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_create_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fab_margin"
-            android:layout_weight="0"
-            android:text="@string/add_task" />
-    </LinearLayout>
+            android:clickable="true"
+            android:src="@android:drawable/ic_input_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>

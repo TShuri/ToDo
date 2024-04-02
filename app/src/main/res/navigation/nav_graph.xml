@@ -15,6 +15,7 @@
             app:destination="@id/fragmentTasks"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="false"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
@@ -24,7 +25,21 @@
         android:label="fragment_tasks"
         tools:layout="@layout/fragment_tasks" >
         <action
-            android:id="@+id/action_fragmentTasks_to_fragmentProjects"
-            app:destination="@id/fragmentProjects" />
+            android:id="@+id/action_fragmentTasks_to_fragmentTask"
+            app:destination="@id/fragmentTask"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentTask"
+        android:name="com.example.todo.screens.FragmentTask"
+        android:label="fragment_task"
+        tools:layout="@layout/fragment_task" >
+        <action
+            android:id="@+id/action_fragmentTask_to_fragmentTasks"
+            app:destination="@id/fragmentTasks"
+            app:popUpTo="@id/fragmentProjects" />
     </fragment>
 </navigation>

@@ -10,9 +10,10 @@ import com.example.todo.R
 import com.example.todo.interfaces.ItemProjectClick
 import com.example.todo.models.Project
 
-class ProjectsRecyclerAdapter(private var projects: List<Project>, private val clickListener: ItemProjectClick) : RecyclerView.Adapter<ProjectsRecyclerAdapter.ViewHolder>() {
+class ProjectsAdapter(private var projects: List<Project>,
+                      private val clickListener: ItemProjectClick) : RecyclerView.Adapter<ProjectsAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nameProjectTextView: TextView = itemView.findViewById(R.id.text_name_item_project)
+        val textNameProject: TextView = itemView.findViewById(R.id.text_name_item_project)
         val buttonDelete: ImageButton = itemView.findViewById(R.id.button_delete_item_project)
         val buttonEdit: ImageButton = itemView.findViewById(R.id.button_edit_item_project)
     }
@@ -29,9 +30,9 @@ class ProjectsRecyclerAdapter(private var projects: List<Project>, private val c
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val project: Project = projects[position]
 
-        holder.nameProjectTextView.text = project.getName()
+        holder.textNameProject.text = project.getName()
 
-        holder.nameProjectTextView.setOnClickListener {
+        holder.textNameProject.setOnClickListener {
             clickListener.navigateToProject(project.getName())
         }
 
