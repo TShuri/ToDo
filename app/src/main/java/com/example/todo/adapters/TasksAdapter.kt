@@ -1,6 +1,6 @@
 package com.example.todo.adapters
 
-import android.graphics.Color
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +13,7 @@ import com.example.todo.MAIN
 import com.example.todo.R
 import com.example.todo.interfaces.ItemTaskClick
 import com.example.todo.models.Task
+import com.example.todo.variantsPriority
 
 class TasksAdapter(private var tasks: List<Task>,
                    private val clickListener: ItemTaskClick): RecyclerView.Adapter<TasksAdapter.ViewHolder>() {
@@ -41,20 +42,25 @@ class TasksAdapter(private var tasks: List<Task>,
 
         holder.textName.text = task.name
 
-        if (task.mark == "") {
+        if (task.mark == "") { // отображение метки, если она есть
             holder.cardMark.visibility = View.GONE
         } else {
             holder.textMark.text = task.mark
         }
 
-        if (task.date == "") {
+        if (task.date == "") { // отображение даты, если она есть
             holder.textDate.visibility = View.GONE
         } else {
             holder.textDate.text = task.date
         }
 
-//        holder.cardItem.setBackgroundColor()
-
+        var color = R.color.gray_default // цвет приоритета
+        when (task.priority) {
+            variantsPriority[1] -> color = R.color.yellow_priority
+            variantsPriority[2] -> color = R.color.red_priority
+        }
+        holder.cardItem.setCardBackgroundColor(ContextCompat.getColor(MAIN, color))
+        holder.buttonDone.setBackgroundColor(ContextCompat.getColor(MAIN, color))
 
         holder.buttonDone.setOnClickListener {
             clickListener.changeStatus(position)
@@ -72,6 +78,8 @@ class TasksAdapter(private var tasks: List<Task>,
             holder.textName.setTextColor(color)
             holder.textMark.setTextColor(color)
             holder.textDate.setTextColor(color)
+
+            holder.textName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
         }
     }
 }

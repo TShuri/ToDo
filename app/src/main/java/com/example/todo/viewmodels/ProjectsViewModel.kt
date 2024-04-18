@@ -21,7 +21,6 @@ class ProjectsViewModel: ViewModel() {
     fun addProject(nameProject: String): Boolean {
         return if (!checkContain(nameProject)) {
             _projects.value = (_projects.value ?: emptyList()) + Project(nameProject)
-            Log.d("AAA", projects.value?.size.toString()) // logging
             true
         } else false
     }

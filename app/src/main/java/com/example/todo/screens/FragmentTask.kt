@@ -5,16 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.todo.MAIN
 import com.example.todo.R
 import com.example.todo.databinding.FragmentTaskBinding
-import com.example.todo.interfaces.ItemTaskClick
+import com.example.todo.interfaces.SelectPriorityClick
 import com.example.todo.models.Task
+import com.example.todo.screens.dialogs.DialogPriority
+import com.example.todo.variantsPriority
 import com.example.todo.viewmodels.TasksViewModel
 
-class FragmentTask: Fragment() {
+class FragmentTask: Fragment(), SelectPriorityClick {
     private lateinit var binding: FragmentTaskBinding
 
     private val tasksViewModel: TasksViewModel by activityViewModels()
@@ -35,6 +38,11 @@ class FragmentTask: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val isEdit: Boolean = checkIsEdit()
+
+        binding.textPriority.setOnClickListener {
+            val dialog = DialogPriority(this)
+            dialog.show(MAIN.supportFragmentManager, "Dialog")
+        }
 
         binding.buttonReady.setOnClickListener {
             if (!checkEmptyName()) {
@@ -61,6 +69,10 @@ class FragmentTask: Fragment() {
         }
     }
 
+    override fun selectPriority(select: String) {
+        binding.textPriority.text = select
+        drawingPriority()
+    }
 
     private fun checkEmptyName():Boolean {
         return binding.editTextName.text.toString() == ""
@@ -69,16 +81,44 @@ class FragmentTask: Fragment() {
     private fun checkIsEdit(): Boolean {
         val currentTask = tasksViewModel.currentTask.value
 
-        if (currentTask != null) {
+        return if (currentTask != null) {
             indexCurrentTask = tasksViewModel.indexCurrentTask.value!!.toInt()
 
             binding.editTextName.setText(currentTask.name)
             binding.editTextDescription.setText(currentTask.description)
             binding.editTextMark.setText(currentTask.mark)
             binding.editTextDate.setText(currentTask.date)
+            binding.textPriority.setText(currentTask.priority)
 
-            return true
-        } else
-            return false
+            drawingPriority()
+            true
+        } else false
+    }
+
+    private fun drawingPriority() {
+        val value = binding.textPriority.text.toString()
+
+        when (value) {
+            variantsPriority[0] -> {
+                val color = ContextCompat.getColor(MAIN, R.color.black)
+                binding.textPriority.setTextColor(color)
+//                binding.imagePriority.setColorFilter(R.color.black)
+                return
+            }
+
+            variantsPriority[1] -> {
+                val color = ContextCompat.getColor(MAIN, R.color.yellow_priority)
+                binding.textPriority.setTextColor(color)
+//                binding.imagePriority.setColorFilter(R.color.yellow_priority)
+                return
+            }
+
+            variantsPriority[2] -> {
+                val color = ContextCompat.getColor(MAIN, R.color.red_priority)
+                binding.textPriority.setTextColor(color)
+//                binding.imagePriority.setColorFilter(R.color.red_priority)
+                return
+            }
+        }
     }
 }

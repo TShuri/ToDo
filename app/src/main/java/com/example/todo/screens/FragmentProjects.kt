@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.todo.ItemListDialogFragment
+import com.example.todo.screens.dialogs.DialogProject
 import com.example.todo.MAIN
 import com.example.todo.R
 import com.example.todo.adapters.ProjectsAdapter
@@ -40,13 +40,13 @@ class FragmentProjects : Fragment(), ItemProjectClick {
         }
 
         binding.buttonCreateProject.setOnClickListener {
-            val dialog = ItemListDialogFragment()
+            val dialog = DialogProject()
             dialog.show(MAIN.supportFragmentManager, "Dialog")
         }
     }
 
     override fun editItemProject(index: Int, nameProject: String) {
-        val dialog = ItemListDialogFragment(index)
+        val dialog = DialogProject(index)
         dialog.show(MAIN.supportFragmentManager, "Dialog")
     }
 

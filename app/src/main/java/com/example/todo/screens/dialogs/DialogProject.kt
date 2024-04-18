@@ -1,4 +1,4 @@
-package com.example.todo
+package com.example.todo.screens.dialogs
 
 import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -8,13 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.text.set
 import androidx.fragment.app.activityViewModels
+import com.example.todo.MAIN
+import com.example.todo.R
 import com.example.todo.databinding.DialogProjectBinding
 import com.example.todo.viewmodels.ProjectsViewModel
 
-class ItemListDialogFragment(private val index: Int? = null) : BottomSheetDialogFragment() {
-
+class DialogProject(private val index: Int? = null) : BottomSheetDialogFragment() {
     private var _binding: DialogProjectBinding? = null
     private val binding get() = _binding!!
     private val projectsViewModel: ProjectsViewModel by activityViewModels()
@@ -25,7 +25,7 @@ class ItemListDialogFragment(private val index: Int? = null) : BottomSheetDialog
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.findViewById<RecyclerView>(R.id.dialog)?.layoutManager = LinearLayoutManager(context)
+        activity?.findViewById<RecyclerView>(R.id.dialog_project)?.layoutManager = LinearLayoutManager(context)
 
         if (index != null) {
             binding.editTextNameProject.setText(projectsViewModel.getNameProject(index))
