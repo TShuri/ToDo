@@ -47,8 +47,8 @@ class FragmentProjects : Fragment(), ItemProjectClick {
         }
     }
 
-    override fun editItemProject(index: Int, nameProject: String) {
-        val dialog = DialogProject(index)
+    override fun editItemProject(project: Project) {
+        val dialog = DialogProject(project)
         dialog.show(MAIN.supportFragmentManager, "Dialog")
     }
 
@@ -56,8 +56,8 @@ class FragmentProjects : Fragment(), ItemProjectClick {
         projectsViewModel.deleteProject(project)
     }
 
-    override fun navigateToProject(nameProject: String) {
-        currentProjectViewModel.change(nameProject)
+    override fun navigateToProject(project: Project) {
+        currentProjectViewModel.change(project)
         MAIN.navController.navigate(R.id.action_fragmentProjects_to_fragmentTasks)
     }
 }

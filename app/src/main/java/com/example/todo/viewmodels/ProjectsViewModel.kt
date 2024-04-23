@@ -13,16 +13,19 @@ class ProjectsViewModel: ViewModel() {
     val projects: LiveData<List<Project>> = _projects
 
     init {
-        Log.d("AAA", "ProjectsViewModel init")
+//        Log.d("AAA", "ProjectsViewModel init")
     }
 
-    private fun checkContain(project: Project): Boolean { // check contains already project in
-        return _projects.value?.contains(project) == true
+    private fun checkContain(nameProject: String): Boolean { // проверка на существование уже такого проекта по его названию
+        for (_project in _projects.value!!) {
+            if (_project.getName() == nameProject) return true
+        }
+        return false
     }
 
     fun addProject(nameProject: String): Boolean {
-        val project = Project(name = nameProject)
-        return if (!checkContain(project)) {
+        return if (!checkContain(nameProject)) {
+            val project = Project(name = nameProject)
             Thread {
                 db.getDao().insertProject(project)
             }.start()
@@ -30,12 +33,12 @@ class ProjectsViewModel: ViewModel() {
         } else false
     }
 
-    fun editProject(indexEdit: Int, nameProject: String): Boolean {
-        val project = Project(name = nameProject)
-        return if (!checkContain(project)) {
-            val updateProjects = _projects.value
-            updateProjects?.get(indexEdit)?.setName(nameProject)
-            _projects.value = updateProjects!!
+    fun editProject(existProject: Project, newName: String): Boolean {
+        return if (!checkContain(newName)) {
+            existProject.setName(newName)
+            Thread {
+                db.getDao().updateProject(existProject)
+            }.start()
             true
         } else false
     }
@@ -44,11 +47,6 @@ class ProjectsViewModel: ViewModel() {
         Thread {
             db.getDao().deleteProject(project)
         }.start()
-//        _projects.value = _projects.value?.filterIndexed { index, _ -> index != indexRemove}
-    }
-
-    fun getNameProject(index: Int): String {
-        return _projects.value!![index].getName()
     }
 
     fun updateList(list: List<Project>) {

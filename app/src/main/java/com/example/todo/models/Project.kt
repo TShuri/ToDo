@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity (tableName = "projects")
 data class Project(
     @PrimaryKey(autoGenerate = true)
-    var id: Int? = null,
+    private var id: Int? = null,
     @ColumnInfo (name = "name")
     private var name: String)
 {
@@ -17,5 +17,9 @@ data class Project(
 
     fun setName(newName: String) {
         name = newName
+    }
+
+    fun getId(): Int? {
+        return id
     }
 }

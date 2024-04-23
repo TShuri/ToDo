@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.example.todo.models.Project
 import kotlinx.coroutines.flow.Flow
 
@@ -11,6 +12,9 @@ import kotlinx.coroutines.flow.Flow
 interface Dao {
     @Insert
     fun insertProject(project: Project)
+
+    @Update
+    fun updateProject(project: Project)
 
     @Delete
     fun deleteProject(project: Project)

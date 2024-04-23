@@ -33,7 +33,7 @@ class FragmentTasks : Fragment(), ItemTaskClick {
         super.onViewCreated(view, savedInstanceState)
 
         currentProjectViewModel.currentProject.observe(activity as LifecycleOwner) {
-            binding.textTitleTasks.text = it
+            binding.textTitleTasks.text = it.getName()
         }
 
         binding.listTasks.layoutManager = LinearLayoutManager(activity)
