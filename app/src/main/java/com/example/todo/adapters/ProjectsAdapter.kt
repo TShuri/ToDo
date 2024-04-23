@@ -37,7 +37,7 @@ class ProjectsAdapter(private var projects: List<Project>,
         }
 
         holder.buttonDelete.setOnClickListener {
-            clickListener.deleteItemProject(position)
+            clickListener.deleteItemProject(projects[position])
         }
 
         holder.buttonEdit.setOnClickListener {

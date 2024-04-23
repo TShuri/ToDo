@@ -13,7 +13,9 @@ import com.example.todo.MAIN
 import com.example.todo.R
 import com.example.todo.adapters.ProjectsAdapter
 import com.example.todo.databinding.FragmentProjectsBinding
+import com.example.todo.db
 import com.example.todo.interfaces.ItemProjectClick
+import com.example.todo.models.Project
 import com.example.todo.viewmodels.CurrentProjectViewModel
 import com.example.todo.viewmodels.ProjectsViewModel
 
@@ -50,8 +52,8 @@ class FragmentProjects : Fragment(), ItemProjectClick {
         dialog.show(MAIN.supportFragmentManager, "Dialog")
     }
 
-    override fun deleteItemProject(index: Int) {
-        projectsViewModel.deleteProject(index)
+    override fun deleteItemProject(project: Project) {
+        projectsViewModel.deleteProject(project)
     }
 
     override fun navigateToProject(nameProject: String) {

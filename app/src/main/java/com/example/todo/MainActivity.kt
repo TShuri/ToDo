@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.todo.databinding.ActivityMainBinding
+import com.example.todo.room.DataBase
 import com.example.todo.viewmodels.CurrentProjectViewModel
 import com.example.todo.viewmodels.ProjectsViewModel
 
@@ -23,7 +25,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+
         MAIN = this
-        Log.d("AAA", "Main activity onCreate")
+        db = DataBase.getDb(this)
+
+        db.getDao().getAllProject().asLiveData().observe(this) {
+            projectsViewModel.updateList(it)
+        }
     }
 }
