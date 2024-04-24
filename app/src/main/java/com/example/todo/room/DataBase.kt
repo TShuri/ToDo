@@ -5,8 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.todo.models.Project
+import com.example.todo.models.Task
 
-@Database (entities = [Project::class], version = 1)
+@Database (entities = [Project::class, Task::class], version = 1)
 abstract class DataBase: RoomDatabase() {
     abstract fun getDao(): Dao
     companion object {

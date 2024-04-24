@@ -32,5 +32,7 @@ class MainActivity : AppCompatActivity() {
         db.getDao().getAllProject().asLiveData().observe(this) {
             projectsViewModel.updateList(it)
         }
+
+
     }
 }

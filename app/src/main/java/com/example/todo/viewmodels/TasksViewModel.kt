@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.todo.db
+import com.example.todo.models.Project
 import com.example.todo.models.Task
 
 class TasksViewModel: ViewModel() {
@@ -21,7 +23,10 @@ class TasksViewModel: ViewModel() {
     }
 
     fun addTask(task: Task) {
-        _tasks.value = (_tasks.value ?: emptyList()) + task
+        Thread {
+            db.getDao().insertTask(task)
+        }.start()
+        //_tasks.value = (_tasks.value ?: emptyList()) + task
     }
 
     fun editTask(task: Task, index: Int) {
@@ -44,5 +49,9 @@ class TasksViewModel: ViewModel() {
     fun resetCurrentTask() {
         _currentTask.value = null
         _indexCurrentTask.value = null
+    }
+
+    fun updateList(list: List<Task>) {
+        _tasks.value = list
     }
 }
