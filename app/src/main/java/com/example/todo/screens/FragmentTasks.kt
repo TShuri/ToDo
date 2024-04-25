@@ -57,8 +57,8 @@ class FragmentTasks : Fragment(), ItemTaskClick {
         }
     }
 
-    override fun navigateToTask(toTask: Task, indexTask: Int) {
-        tasksViewModel.updateCurrentTask(toTask, indexTask)
+    override fun navigateToTask(task: Task) {
+        tasksViewModel.updateCurrentTask(task)
         MAIN.navController.navigate(R.id.action_fragmentTasks_to_fragmentTask)
     }
 
