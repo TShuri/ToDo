@@ -31,9 +31,11 @@ class TasksViewModel: ViewModel() {
     }
 
     fun changeStatus(index: Int) {
-        val updateTasks = _tasks.value
-        updateTasks?.get(index)?.changeStatus()
-        _tasks.value = updateTasks!!
+        val task = _tasks.value?.get(index)
+        task?.changeStatus()
+        viewModelScope.launch {
+            db.getDao().updateTask(task!!)
+        }
     }
 
     fun updateCurrentTask(task: Task) {
