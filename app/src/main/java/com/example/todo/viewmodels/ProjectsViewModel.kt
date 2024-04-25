@@ -14,6 +14,14 @@ class ProjectsViewModel: ViewModel() {
     private val _projects = MutableLiveData<List<Project>>()
     val projects: LiveData<List<Project>> = _projects
 
+    init {
+        viewModelScope.launch {
+            db.getDao().getAllProject().collect { projects ->
+                _projects.value = projects
+            }
+        }
+    }
+
     private fun checkContain(nameProject: String): Boolean { // проверка на существование уже такого проекта по его названию
         for (_project in _projects.value!!) {
             if (_project.getName() == nameProject) return true
@@ -45,9 +53,5 @@ class ProjectsViewModel: ViewModel() {
         viewModelScope.launch {
             db.getDao().deleteProject(project)
         }
-    }
-
-    fun updateList(list: List<Project>) {
-        _projects.value = list
     }
 }

@@ -21,15 +21,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        db = DataBase.getDb(this)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
         MAIN = this
-        db = DataBase.getDb(this)
-
-        db.getDao().getAllProject().asLiveData().observe(this) {
-            projectsViewModel.updateList(it)
-        }
     }
 }
