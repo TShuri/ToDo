@@ -14,10 +14,6 @@ class ProjectsViewModel: ViewModel() {
     private val _projects = MutableLiveData<List<Project>>()
     val projects: LiveData<List<Project>> = _projects
 
-    init {
-//        Log.d("AAA", "ProjectsViewModel init")
-    }
-
     private fun checkContain(nameProject: String): Boolean { // проверка на существование уже такого проекта по его названию
         for (_project in _projects.value!!) {
             if (_project.getName() == nameProject) return true

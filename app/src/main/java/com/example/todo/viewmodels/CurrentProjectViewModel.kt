@@ -10,10 +10,6 @@ class CurrentProjectViewModel: ViewModel() {
     private val _currentProject = MutableLiveData<Project>()
     val currentProject: LiveData<Project> = _currentProject
 
-    init {
-        Log.d("AAA", "CurrentProjectViewModel init")
-    }
-
     fun change(project: Project) {
         _currentProject.value = project
     }

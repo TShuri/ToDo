@@ -17,24 +17,20 @@ class TasksViewModel: ViewModel() {
     private val _currentTask = MutableLiveData<Task?>()
     val currentTask: LiveData<Task?> = _currentTask
 
-    private val _indexCurrentTask = MutableLiveData<Int?>()
-    val indexCurrentTask: LiveData<Int?> = _indexCurrentTask
-
-    init {
-        Log.d("AAA", "TasksViewModel init")
-    }
+//    private val _indexCurrentTask = MutableLiveData<Int?>()
+//    val indexCurrentTask: LiveData<Int?> = _indexCurrentTask
 
     fun addTask(task: Task) {
         viewModelScope.launch {
             db.getDao().insertTask(task)
         }
-        //_tasks.value = (_tasks.value ?: emptyList()) + task
     }
 
-    fun editTask(task: Task, index: Int) {
-        val updateTasks = _tasks.value
-        updateTasks?.get(index)?.change(task)
-        _tasks.value = updateTasks!!
+    fun editTask(changedTask: Task) {
+        currentTask.value?.change(changedTask)
+        viewModelScope.launch {
+            db.getDao().updateTask(currentTask.value!!)
+        }
     }
 
     fun changeStatus(index: Int) {
@@ -45,12 +41,12 @@ class TasksViewModel: ViewModel() {
 
     fun updateCurrentTask(task: Task, index: Int) {
         _currentTask.value = task
-        _indexCurrentTask.value = index
+//        _indexCurrentTask.value = index
     }
 
     fun resetCurrentTask() {
         _currentTask.value = null
-        _indexCurrentTask.value = null
+//        _indexCurrentTask.value = null
     }
 
     fun updateList(list: List<Task>) {

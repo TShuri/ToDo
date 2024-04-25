@@ -35,6 +35,7 @@ class FragmentTasks : Fragment(), ItemTaskClick {
         super.onViewCreated(view, savedInstanceState)
 
         val idCurrentProject = currentProjectViewModel.currentProject.value!!.getId()
+
         db.getDao().getAllTask(idCurrentProject!!).asLiveData().observe(MAIN) {
             tasksViewModel.updateList(it)
         }
@@ -64,5 +65,4 @@ class FragmentTasks : Fragment(), ItemTaskClick {
     override fun changeStatus(index: Int) {
         tasksViewModel.changeStatus(index)
     }
-
 }

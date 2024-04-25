@@ -64,7 +64,7 @@ class FragmentTask: Fragment(), SelectPriorityClick {
                                 project_id=idCurrentProject)
 
                 if (isEdit) {
-                    tasksViewModel.editTask(task, indexCurrentTask!!)
+                    tasksViewModel.editTask(task)
                 } else{
                     tasksViewModel.addTask(task)
                 }
@@ -91,8 +91,6 @@ class FragmentTask: Fragment(), SelectPriorityClick {
         val currentTask = tasksViewModel.currentTask.value
 
         return if (currentTask != null) {
-            indexCurrentTask = tasksViewModel.indexCurrentTask.value!!.toInt()
-
             binding.editTextName.setText(currentTask.name)
             binding.editTextDescription.setText(currentTask.description)
             binding.editTextMark.setText(currentTask.mark)
