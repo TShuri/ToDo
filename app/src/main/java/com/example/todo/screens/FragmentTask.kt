@@ -23,7 +23,6 @@ class FragmentTask: Fragment(), SelectPriorityClick {
 
     private val tasksViewModel: TasksViewModel by activityViewModels()
     private val currentProjectViewModel: CurrentProjectViewModel by activityViewModels()
-    private var indexCurrentTask: Int? = null
 
     private lateinit var name: String
     private lateinit var description: String

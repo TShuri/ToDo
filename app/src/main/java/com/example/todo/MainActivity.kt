@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var navController: NavController
     val projectsViewModel: ProjectsViewModel by viewModels()
-    val currentProjectViewModel: CurrentProjectViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +31,5 @@ class MainActivity : AppCompatActivity() {
         db.getDao().getAllProject().asLiveData().observe(this) {
             projectsViewModel.updateList(it)
         }
-
-
     }
 }
