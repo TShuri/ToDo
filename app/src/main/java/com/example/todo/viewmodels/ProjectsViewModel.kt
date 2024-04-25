@@ -5,8 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.todo.db
 import com.example.todo.models.Project
+import kotlinx.coroutines.launch
 
 class ProjectsViewModel: ViewModel() {
     private val _projects = MutableLiveData<List<Project>>()
@@ -26,9 +28,9 @@ class ProjectsViewModel: ViewModel() {
     fun addProject(nameProject: String): Boolean {
         return if (!checkContain(nameProject)) {
             val project = Project(name = nameProject)
-            Thread {
+            viewModelScope.launch {
                 db.getDao().insertProject(project)
-            }.start()
+            }
             true
         } else false
     }
@@ -36,17 +38,17 @@ class ProjectsViewModel: ViewModel() {
     fun editProject(existProject: Project, newName: String): Boolean {
         return if (!checkContain(newName)) {
             existProject.setName(newName)
-            Thread {
+            viewModelScope.launch {
                 db.getDao().updateProject(existProject)
-            }.start()
+            }
             true
         } else false
     }
 
     fun deleteProject(project: Project) {
-        Thread {
+        viewModelScope.launch {
             db.getDao().deleteProject(project)
-        }.start()
+        }
     }
 
     fun updateList(list: List<Project>) {

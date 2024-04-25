@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.todo.db
 import com.example.todo.models.Project
 import com.example.todo.models.Task
+import kotlinx.coroutines.launch
 
 class TasksViewModel: ViewModel() {
     private val _tasks = MutableLiveData<List<Task>>()
@@ -23,9 +25,9 @@ class TasksViewModel: ViewModel() {
     }
 
     fun addTask(task: Task) {
-        Thread {
+        viewModelScope.launch {
             db.getDao().insertTask(task)
-        }.start()
+        }
         //_tasks.value = (_tasks.value ?: emptyList()) + task
     }
 

@@ -13,26 +13,26 @@ import kotlinx.coroutines.flow.Flow
 interface Dao {
     // sql for projects
     @Insert
-    fun insertProject(project: Project)
+    suspend fun insertProject(project: Project)
 
     @Update
-    fun updateProject(project: Project)
+    suspend fun updateProject(project: Project)
 
     @Delete
-    fun deleteProject(project: Project)
+    suspend fun deleteProject(project: Project)
 
     @Query("SELECT * FROM projects")
     fun getAllProject(): Flow<List<Project>>
 
     // sql for tasks
     @Insert
-    fun insertTask(task: Task)
+    suspend fun insertTask(task: Task)
 
     @Update
-    fun updateTask(task: Task)
+    suspend fun updateTask(task: Task)
 
     @Delete
-    fun deleteTask(task: Task)
+    suspend fun deleteTask(task: Task)
 
     @Query("SELECT * FROM tasks WHERE project_id = :id_project")
     fun getAllTask(id_project: Int): Flow<List<Task>>
