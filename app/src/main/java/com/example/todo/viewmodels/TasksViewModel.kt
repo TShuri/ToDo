@@ -24,9 +24,9 @@ class TasksViewModel: ViewModel() {
     }
 
     fun editTask(changedTask: Task) {
-        currentTask.value?.change(changedTask)
+        _currentTask.value?.change(changedTask)
         viewModelScope.launch {
-            db.getDao().updateTask(currentTask.value!!)
+            db.getDao().updateTask(_currentTask.value!!)
         }
     }
 
