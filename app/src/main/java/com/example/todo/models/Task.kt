@@ -7,7 +7,9 @@ import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
 
 @Entity (tableName = "tasks",
-         foreignKeys = [ForeignKey(entity = Project::class, parentColumns = ["id"], childColumns = ["project_id"], onDelete = CASCADE)])
+         foreignKeys = [ForeignKey(entity = Project::class,
+             parentColumns = ["id"], childColumns = ["project_id"],
+             onDelete = CASCADE)])
 data class Task(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null,
