@@ -15,13 +15,14 @@ import com.example.todo.interfaces.SelectPriorityClick
 import com.example.todo.models.Task
 import com.example.todo.screens.dialogs.DialogPriority
 import com.example.todo.variantsPriority
+import com.example.todo.viewmodels.CurrentProjectViewModel
 import com.example.todo.viewmodels.TasksViewModel
 
 class FragmentTask: Fragment(), SelectPriorityClick {
     private lateinit var binding: FragmentTaskBinding
 
     private val tasksViewModel: TasksViewModel by activityViewModels()
-    private var indexCurrentTask: Int? = null
+    private val currentProjectViewModel: CurrentProjectViewModel by activityViewModels()
 
     private lateinit var name: String
     private lateinit var description: String
@@ -36,6 +37,8 @@ class FragmentTask: Fragment(), SelectPriorityClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val idCurrentProject = currentProjectViewModel.currentProject.value?.getId()!!
 
         val isEdit: Boolean = checkIsEdit()
 
@@ -52,10 +55,15 @@ class FragmentTask: Fragment(), SelectPriorityClick {
                 date = binding.editTextDate.text.toString()
                 priority = binding.textPriority.text.toString()
 
-                val task = Task(name, description, mark, date, priority)
+                val task = Task(name=name,
+                                description=description,
+                                mark = mark,
+                                date=date,
+                                priority=priority,
+                                project_id=idCurrentProject)
 
                 if (isEdit) {
-                    tasksViewModel.editTask(task, indexCurrentTask!!)
+                    tasksViewModel.editTask(task)
                 } else{
                     tasksViewModel.addTask(task)
                 }
@@ -82,8 +90,6 @@ class FragmentTask: Fragment(), SelectPriorityClick {
         val currentTask = tasksViewModel.currentTask.value
 
         return if (currentTask != null) {
-            indexCurrentTask = tasksViewModel.indexCurrentTask.value!!.toInt()
-
             binding.editTextName.setText(currentTask.name)
             binding.editTextDescription.setText(currentTask.description)
             binding.editTextMark.setText(currentTask.mark)

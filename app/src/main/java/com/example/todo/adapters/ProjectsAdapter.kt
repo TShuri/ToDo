@@ -33,15 +33,15 @@ class ProjectsAdapter(private var projects: List<Project>,
         holder.textNameProject.text = project.getName()
 
         holder.textNameProject.setOnClickListener {
-            clickListener.navigateToProject(project.getName())
+            clickListener.navigateToProject(project)
         }
 
         holder.buttonDelete.setOnClickListener {
-            clickListener.deleteItemProject(position)
+            clickListener.deleteItemProject(project)
         }
 
         holder.buttonEdit.setOnClickListener {
-            clickListener.editItemProject(position, project.getName())
+            clickListener.editItemProject(project)
         }
 
     }

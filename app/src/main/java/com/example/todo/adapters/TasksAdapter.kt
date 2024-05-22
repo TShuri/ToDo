@@ -67,7 +67,7 @@ class TasksAdapter(private var tasks: List<Task>,
         }
 
         holder.cardItem.setOnClickListener {
-            clickListener.navigateToTask(task, position)
+            clickListener.navigateToTask(task)
         }
 
         if (task.status == true) {

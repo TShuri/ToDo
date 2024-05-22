@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todo.MAIN
 import com.example.todo.R
 import com.example.todo.adapters.TasksAdapter
 import com.example.todo.databinding.FragmentTasksBinding
+import com.example.todo.db
 import com.example.todo.interfaces.ItemTaskClick
 import com.example.todo.models.Task
 import com.example.todo.viewmodels.CurrentProjectViewModel
@@ -32,8 +34,11 @@ class FragmentTasks : Fragment(), ItemTaskClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val idCurrentProject = currentProjectViewModel.currentProject.value!!.getId()
+        tasksViewModel.initTasks(idCurrentProject!!)
+
         currentProjectViewModel.currentProject.observe(activity as LifecycleOwner) {
-            binding.textTitleTasks.text = it
+            binding.textTitleTasks.text = it.getName()
         }
 
         binding.listTasks.layoutManager = LinearLayoutManager(activity)
@@ -49,13 +54,12 @@ class FragmentTasks : Fragment(), ItemTaskClick {
         }
     }
 
-    override fun navigateToTask(toTask: Task, indexTask: Int) {
-        tasksViewModel.updateCurrentTask(toTask, indexTask)
+    override fun navigateToTask(task: Task) {
+        tasksViewModel.updateCurrentTask(task)
         MAIN.navController.navigate(R.id.action_fragmentTasks_to_fragmentTask)
     }
 
     override fun changeStatus(index: Int) {
         tasksViewModel.changeStatus(index)
     }
-
 }

@@ -7,15 +7,10 @@ import androidx.lifecycle.ViewModel
 import com.example.todo.models.Project
 
 class CurrentProjectViewModel: ViewModel() {
-    private val _currentProject = MutableLiveData<String>()
-    val currentProject: LiveData<String> = _currentProject
+    private val _currentProject = MutableLiveData<Project>()
+    val currentProject: LiveData<Project> = _currentProject
 
-    init {
-        //_currentProject.value = String()
-        Log.d("AAA", "CurrentProjectViewModel init")
-    }
-
-    fun change(name: String) {
-        _currentProject.value = name
+    fun change(project: Project) {
+        _currentProject.value = project
     }
 }

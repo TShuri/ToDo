@@ -4,41 +4,54 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.todo.db
 import com.example.todo.models.Project
+import kotlinx.coroutines.launch
 
 class ProjectsViewModel: ViewModel() {
     private val _projects = MutableLiveData<List<Project>>()
     val projects: LiveData<List<Project>> = _projects
 
     init {
-        Log.d("AAA", "ProjectsViewModel init")
+        viewModelScope.launch {
+            db.getDao().getAllProject().collect { projects ->
+                _projects.value = projects
+            }
+        }
     }
 
-    private fun checkContain(nameProject: String): Boolean {
-        return _projects.value?.contains(Project(nameProject)) == true
+    private fun checkContain(nameProject: String): Boolean { // проверка на существование уже такого проекта по его названию
+        for (_project in _projects.value!!) {
+            if (_project.getName() == nameProject) return true
+        }
+        return false
     }
 
     fun addProject(nameProject: String): Boolean {
         return if (!checkContain(nameProject)) {
-            _projects.value = (_projects.value ?: emptyList()) + Project(nameProject)
+            val project = Project(name = nameProject)
+            viewModelScope.launch {
+                db.getDao().insertProject(project)
+            }
             true
         } else false
     }
 
-    fun editProject(indexEdit: Int, nameProject: String): Boolean {
-        return if (!checkContain(nameProject)) {
-            val updateProjects = _projects.value
-            updateProjects?.get(indexEdit)?.setName(nameProject)
-            _projects.value = updateProjects!!
+    fun editProject(existProject: Project, newName: String): Boolean {
+        return if (!checkContain(newName)) {
+            existProject.setName(newName)
+            viewModelScope.launch {
+                db.getDao().updateProject(existProject)
+            }
             true
         } else false
     }
 
-    fun deleteProject(indexRemove: Int) {
-        _projects.value = _projects.value?.filterIndexed { index, _ -> index != indexRemove}
-    }
-
-    fun getNameProject(index: Int): String {
-        return _projects.value!![index].getName()
+    fun deleteProject(project: Project) {
+        viewModelScope.launch {
+            db.getDao().deleteProject(project)
+        }
     }
 }

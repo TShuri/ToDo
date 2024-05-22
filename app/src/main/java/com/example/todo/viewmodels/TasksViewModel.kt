@@ -4,7 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.todo.db
+import com.example.todo.models.Project
 import com.example.todo.models.Task
+import kotlinx.coroutines.launch
 
 class TasksViewModel: ViewModel() {
     private val _tasks = MutableLiveData<List<Task>>()
@@ -13,36 +17,40 @@ class TasksViewModel: ViewModel() {
     private val _currentTask = MutableLiveData<Task?>()
     val currentTask: LiveData<Task?> = _currentTask
 
-    private val _indexCurrentTask = MutableLiveData<Int?>()
-    val indexCurrentTask: LiveData<Int?> = _indexCurrentTask
-
-    init {
-        Log.d("AAA", "TasksViewModel init")
+    fun initTasks(projectId: Int) {
+        viewModelScope.launch {
+            db.getDao().getAllTask(projectId).collect { tasksList ->
+                _tasks.postValue(tasksList)
+            }
+        }
     }
 
     fun addTask(task: Task) {
-        _tasks.value = (_tasks.value ?: emptyList()) + task
+        viewModelScope.launch {
+            db.getDao().insertTask(task)
+        }
     }
 
-    fun editTask(task: Task, index: Int) {
-        val updateTasks = _tasks.value
-        updateTasks?.get(index)?.change(task)
-        _tasks.value = updateTasks!!
+    fun editTask(changedTask: Task) {
+        _currentTask.value?.change(changedTask)
+        viewModelScope.launch {
+            db.getDao().updateTask(_currentTask.value!!)
+        }
     }
 
     fun changeStatus(index: Int) {
-        val updateTasks = _tasks.value
-        updateTasks?.get(index)?.changeStatus()
-        _tasks.value = updateTasks!!
+        val task = _tasks.value?.get(index)
+        task?.changeStatus()
+        viewModelScope.launch {
+            db.getDao().updateTask(task!!)
+        }
     }
 
-    fun updateCurrentTask(task: Task, index: Int) {
+    fun updateCurrentTask(task: Task) {
         _currentTask.value = task
-        _indexCurrentTask.value = index
     }
 
     fun resetCurrentTask() {
         _currentTask.value = null
-        _indexCurrentTask.value = null
     }
 }
