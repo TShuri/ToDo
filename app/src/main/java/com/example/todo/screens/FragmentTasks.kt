@@ -35,10 +35,7 @@ class FragmentTasks : Fragment(), ItemTaskClick {
         super.onViewCreated(view, savedInstanceState)
 
         val idCurrentProject = currentProjectViewModel.currentProject.value!!.getId()
-
-        db.getDao().getAllTask(idCurrentProject!!).asLiveData().observe(MAIN) {
-            tasksViewModel.updateList(it)
-        }
+        tasksViewModel.initTasks(idCurrentProject!!)
 
         currentProjectViewModel.currentProject.observe(activity as LifecycleOwner) {
             binding.textTitleTasks.text = it.getName()

@@ -17,6 +17,14 @@ class TasksViewModel: ViewModel() {
     private val _currentTask = MutableLiveData<Task?>()
     val currentTask: LiveData<Task?> = _currentTask
 
+    fun initTasks(projectId: Int) {
+        viewModelScope.launch {
+            db.getDao().getAllTask(projectId).collect { tasksList ->
+                _tasks.postValue(tasksList)
+            }
+        }
+    }
+
     fun addTask(task: Task) {
         viewModelScope.launch {
             db.getDao().insertTask(task)
@@ -44,9 +52,5 @@ class TasksViewModel: ViewModel() {
 
     fun resetCurrentTask() {
         _currentTask.value = null
-    }
-
-    fun updateList(list: List<Task>) {
-        _tasks.value = list
     }
 }
