@@ -4,11 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.todo.db
 import com.example.todo.models.Project
+import com.example.todo.retrofit.RetrofitInstance
 import kotlinx.coroutines.launch
+
 
 class ProjectsViewModel: ViewModel() {
     private val _projects = MutableLiveData<List<Project>>()
@@ -16,9 +17,23 @@ class ProjectsViewModel: ViewModel() {
 
     init {
         viewModelScope.launch {
-            db.getDao().getAllProject().collect { projects ->
-                _projects.value = projects
+            try {
+                syncProjects()
+            } catch (e: Exception) {
+                // Обработка ошибок
+                Log.d("AAA", e.toString())
             }
+        }
+    }
+
+    private suspend fun syncProjects() {
+        // Fetch projects from remote
+        val remoteProjects = RetrofitInstance.apiService.getProjects()
+        // Save to local database
+        db.getDao().insertProjects(remoteProjects)
+        // Fetch from local database and update LiveData
+        db.getDao().getAllProject().collect { projects ->
+            _projects.value = projects
         }
     }
 

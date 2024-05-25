@@ -3,6 +3,7 @@ package com.example.todo.room
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.todo.models.Project
@@ -14,6 +15,9 @@ interface Dao {
     // sql for projects
     @Insert
     suspend fun insertProject(project: Project)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertProjects(projects: List<Project>)
 
     @Update
     suspend fun updateProject(project: Project)
