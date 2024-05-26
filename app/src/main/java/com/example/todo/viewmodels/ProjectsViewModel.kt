@@ -17,23 +17,20 @@ class ProjectsViewModel: ViewModel() {
 
     init {
         viewModelScope.launch {
-            try {
-                syncProjects()
-            } catch (e: Exception) {
-                // Обработка ошибок
-                Log.d("AAA", e.toString())
-            }
+           syncProjects()
         }
     }
 
     private suspend fun syncProjects() {
-        // Fetch projects from remote
-        val remoteProjects = RetrofitInstance.apiService.getProjects()
-        // Save to local database
-        db.getDao().insertProjects(remoteProjects)
-        // Fetch from local database and update LiveData
-        db.getDao().getAllProject().collect { projects ->
-            _projects.value = projects
+        try {
+            val remoteProjects = RetrofitInstance.apiService.getProjects()
+            db.getDao().insertProjects(remoteProjects)
+
+            db.getDao().getAllProject().collect { projects ->
+                _projects.value = projects
+            }
+        } catch (e: Exception) {
+            Log.e("ProjectsViewModel", "Error syncing projects", e)
         }
     }
 
@@ -46,9 +43,14 @@ class ProjectsViewModel: ViewModel() {
 
     fun addProject(nameProject: String): Boolean {
         return if (!checkContain(nameProject)) {
-            val project = Project(name = nameProject)
             viewModelScope.launch {
-                db.getDao().insertProject(project)
+                try {
+                    val newProject = Project(name = nameProject)
+                    RetrofitInstance.apiService.createProject(newProject)
+                    syncProjects()
+                } catch (e: Exception) {
+                    Log.e("ProjectsViewModel", "Error adding project", e)
+                }
             }
             true
         } else false
@@ -56,9 +58,14 @@ class ProjectsViewModel: ViewModel() {
 
     fun editProject(existProject: Project, newName: String): Boolean {
         return if (!checkContain(newName)) {
-            existProject.setName(newName)
             viewModelScope.launch {
-                db.getDao().updateProject(existProject)
+                try {
+                    existProject.setName(newName)
+                    RetrofitInstance.apiService.updateProject(existProject.getId()!!, existProject)
+                    syncProjects()
+                } catch (e: Exception) {
+                    Log.e("ProjectsViewModel", "Error editing project", e)
+                }
             }
             true
         } else false
@@ -66,7 +73,9 @@ class ProjectsViewModel: ViewModel() {
 
     fun deleteProject(project: Project) {
         viewModelScope.launch {
+            RetrofitInstance.apiService.deleteProject(project.getId()!!)
             db.getDao().deleteProject(project)
+            syncProjects()
         }
     }
 }
