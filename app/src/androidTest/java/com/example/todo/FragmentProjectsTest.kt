@@ -1,11 +1,13 @@
 package com.example.todo
 
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -46,6 +48,22 @@ class FragmentProjectsTest {
 
         // Проверяем, что диалог отображается
         onView(withText(""))
+            .check(matches(isDisplayed()))
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun testNavigateToFragmentTasksOnClick() {
+        // Запускаем MainActivity
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+
+        // Нажимаем на первый элемент списка проектов
+        onView(withId(R.id.list_projects))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+
+        // Проверяем, что произошел переход на фрагмент FragmentTasks
+        onView(withId(R.id.frame_tasks))
             .check(matches(isDisplayed()))
 
         activityScenario.close()

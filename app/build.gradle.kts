@@ -8,6 +8,10 @@ android {
     namespace = "com.example.todo"
     compileSdk = 34
 
+    testOptions {
+        animationsDisabled = true
+    }
+
     defaultConfig {
         applicationId = "com.example.todo"
         minSdk = 27
@@ -55,6 +59,7 @@ dependencies {
 
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("androidx.test.espresso:espresso-contrib:3.5.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 
