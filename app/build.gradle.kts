@@ -58,6 +58,15 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 
+    // Espresso dependencies
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.test:rules:1.4.0")
+    androidTestImplementation("androidx.test:runner:1.4.0")
+    // Для работы с ViewModel в тестах
+    androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
+    // Для работы с Fragment в тестах
+    androidTestImplementation("androidx.fragment:fragment-testing:1.3.6")
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
